@@ -1,0 +1,122 @@
+body {
+    font-family: Arial, sans-serif;
+    background-color: #ababab;
+    margin: 0;
+    padding: 20px;
+    text-align: center;
+    font-size: 16px;
+}
+
+.container {
+    width: 100%;
+    max-width: 1000px;
+    margin: 0 auto;
+    padding: 0 20px;
+}
+
+h1 {
+    color: #333;
+}
+
+form {
+    display: inline-block;
+    text-align: left;
+    margin-bottom: 20px;
+    width: 100%;
+    background-color: #9edfbf;
+    border-radius: 10px;
+   
+    padding: 20px; /* 전체 padding 추가 */
+    box-sizing: border-box; /* padding이 width를 포함하도록 설정 */
+}
+
+label {
+    display: block;
+    
+}
+
+input[type="text"], input[type="date"], select {
+    width: calc(100% - 16px);
+    padding: 10px; /* 내부 padding 추가 */
+    margin: 10px 0; /* 상하 여백 추가 */
+    box-sizing: border-box;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+}
+
+input[type="submit"] {
+    background-color: #4a4a4a;
+    color: white;
+    padding: 10px;
+    border: none;
+    cursor: pointer;
+    margin-top: 10px;
+    width: calc(100% - 16px);
+    border-radius: 5px;
+}
+
+input[type="submit"]:hover {
+    background-color: #5a5a5a;
+}
+table {
+    
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+    border-radius: 10px;
+    overflow: hidden;
+   
+    
+}
+
+table, th, td {
+    border: 1px solid #aaa;
+}
+
+th, td {
+    padding: 8px;
+    text-align: left;
+}
+
+th {
+    background-color: #ccc;
+}
+
+tr.even {
+    background-color: #f0f0f0;
+}
+
+tr.odd {
+    background-color: #e0e0e0;
+}
+
+td:nth-child(1) {
+    width: 15%;
+}
+
+td:nth-child(2), td:nth-child(3), td:nth-child(5), td:nth-child(6) {
+    width: 10%;
+}
+
+td:nth-child(4) {
+    width: 30%;
+}
+
+td:nth-child(5) {
+    width: 20%;
+}
+
+a {
+    color: #d9534f;
+    text-decoration: none;
+}
+
+a:hover {
+    text-decoration: underline;
+}
+
+@media (max-width: 768px) {
+    body {
+        font-size: 16px;
+    }
+}

@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Travel Planner</title>
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/style.css') }}">
+    <script>
+        // Function to retain the entered date
+        window.onload = function() {
+            const dateInput = document.getElementById('date');
+            if (localStorage.getItem('savedDate')) {
+                dateInput.value = localStorage.getItem('savedDate');
+            }
+            dateInput.addEventListener('change', function() {
+                localStorage.setItem('savedDate', dateInput.value);
+            });
+
+            // Populate minute options
+            const startTimeInput = document.getElementById('start_time');
+            const endTimeInput = document.getElementById('end_time');
+            populateMinutes(startTimeInput);
+            populateMinutes(endTimeInput);
+        }
+
+        function populateMinutes(timeInput) {
+            const minutes = ['00', '10', '20', '30', '40', '50'];
+            let newTimeInput = timeInput.cloneNode(true);
+            newTimeInput.innerHTML = ''; // Clear existing options
+            for (let hour = 0; hour < 24; hour++) {
+                for (let minute of minutes) {
+                    let timeOption = document.createElement('option');
+                    timeOption.value = `${String(hour).padStart(2, '0')}:${minute}`;
+                    timeOption.text = `${String(hour).padStart(2, '0')}:${minute}`;
+                    newTimeInput.appendChild(timeOption);
+                }
+            }
+            timeInput.parentNode.replaceChild(newTimeInput, timeInput);
+        }
+    </script>
+</head>
+<body>
+    <div class="container">
+        <h1>Schedule Planner</h1>
+        <form method="post">
+            <label for="date">Date:</label>
+            <input type="date" id="date" name="date" required><br>
+            
+            <label for="start_time">Start Time:</label>
+            <select id="start_time" name="start_time" required></select><br>
+            
+            <label for="end_time">End Time:</label>
+            <select id="end_time" name="end_time" required></select><br>
+            
+            <label for="content">Content:</label>
+            <input type="text" id="content" name="content" required><br>
+            
+            <label for="notes">Notes:</label>
+            <input type="text" name="notes"><br>
+            
+            <input type="submit" value="ADD">
+        </form>
+        
+        <table>
+            <tr>
+                <th>Date</th>
+                <th>Start</th>
+                <th>End</th>
+                <th>Content</th>
+                <th>Remark</th>
+                <th>Action</th>
+            </tr>
+            {% for plan in plans %}
+            <tr class="{% if loop.index0 is divisibleby 2 %}even{% else %}odd{% endif %}">
+                <td>{{ plan.date }}</td>
+                <td>{{ plan.start_time }}</td>
+                <td>{{ plan.end_time }}</td>
+                <td>{{ plan.content }}</td>
+                <td>{{ plan.notes }}</td>
+                <td><a href="{{ url_for('delete', id=plan.id) }}">Delete</a></td>
+            </tr>
+            {% endfor %}
+        </table>
+    </div>
+</body>
+</html>
