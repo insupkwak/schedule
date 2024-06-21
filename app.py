@@ -95,6 +95,7 @@ def delete(id):
         return "Database connection error"
 
 if __name__ == '__main__':
-    with app.app_context():
-        init_db()
-    app.run(debug=True)
+    try:
+        app.run(host='0.0.0.0', debug=False)
+    except Exception as e:
+        print("An error occurred while running the server:", e)
