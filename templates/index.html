@@ -2,45 +2,26 @@
 <html>
 <head>
     <title>Travel Planner</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/style.css') }}">
-    <script>
-        // Function to retain the entered date
-        window.onload = function() {
-            const dateInput = document.getElementById('date');
-            if (localStorage.getItem('savedDate')) {
-                dateInput.value = localStorage.getItem('savedDate');
-            }
-            dateInput.addEventListener('change', function() {
-                localStorage.setItem('savedDate', dateInput.value);
-            });
-
-            // Populate minute options
-            const startTimeInput = document.getElementById('start_time');
-            const endTimeInput = document.getElementById('end_time');
-            populateMinutes(startTimeInput);
-            populateMinutes(endTimeInput);
-        }
-
-        function populateMinutes(timeInput) {
-            const minutes = ['00', '10', '20', '30', '40', '50'];
-            let newTimeInput = timeInput.cloneNode(true);
-            newTimeInput.innerHTML = ''; // Clear existing options
-            for (let hour = 0; hour < 24; hour++) {
-                for (let minute of minutes) {
-                    let timeOption = document.createElement('option');
-                    timeOption.value = `${String(hour).padStart(2, '0')}:${minute}`;
-                    timeOption.text = `${String(hour).padStart(2, '0')}:${minute}`;
-                    newTimeInput.appendChild(timeOption);
-                }
-            }
-            timeInput.parentNode.replaceChild(newTimeInput, timeInput);
-        }
-    </script>
+    <script src="{{ url_for('static', filename='js/script.js') }}"></script>
 </head>
 <body>
     <div class="container">
-        <h1>Schedule Planner</h1>
-        <form method="post">
+        <h1>
+            Schedule Planner
+            </h1>
+      
+        <!-- Group Code Input Form for Loading Schedules -->
+        <form method="get" action="{{ url_for('index') }}">
+            <label for="group_code">Group Code:</label>
+            <input type="text" id="group_code" name="group_code" value="{{ request.args.get('group_code', '') }}" placeholder="4자리 고유번호를 입력하세요" required><br>
+            <input type="submit" value="LOAD">
+        </form> 
+
+
+        <!-- Schedule Input Form -->
+        <form method="post" action="{{ url_for('index', group_code=request.args.get('group_code', '')) }}">
             <label for="date">Date:</label>
             <input type="date" id="date" name="date" required><br>
             
@@ -53,12 +34,15 @@
             <label for="content">Content:</label>
             <input type="text" id="content" name="content" required><br>
             
-            <label for="notes">Notes:</label>
+            <label for="notes">Remark:</label>
             <input type="text" name="notes"><br>
             
             <input type="submit" value="ADD">
         </form>
         
+
+        
+         <!-- Schedule Table -->
         <table>
             <tr>
                 <th>Date</th>
@@ -75,7 +59,7 @@
                 <td>{{ plan.end_time }}</td>
                 <td>{{ plan.content }}</td>
                 <td>{{ plan.notes }}</td>
-                <td><a href="{{ url_for('delete', id=plan.id) }}">Delete</a></td>
+                <td><a href="{{ url_for('delete', id=plan.id) }}?group_code={{ plan.group_code }}">Delete</a></td>
             </tr>
             {% endfor %}
         </table>
